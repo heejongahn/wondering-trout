@@ -53,30 +53,284 @@ const pageUrl = `${HOST}${path}`;
   </body>
 </html>
 <style is:global>
-  :root {
-    --accent: 136, 58, 234;
-    --accent-light: 224, 204, 250;
-    --accent-dark: 49, 10, 101;
-    --accent-gradient: linear-gradient(
-      45deg,
-      rgb(var(--accent)),
-      rgb(var(--accent-light)) 30%,
-      white 60%
-    );
-  }
+  @import "open-color/open-color.css";
+  @import "prismjs/themes/prism-solarizedlight.css";
+
   html {
-    font-family: system-ui, sans-serif;
-    background: #13151a;
+    --font-family: "Eulyoo", "MaruBuri", "Pretendard Variable",
+      "Apple SD Gothic Neo", "Nanum Barun Gothic", "Nanum Gothic", Verdana,
+      Arial, "Malgun Gothic", Dotum, sans-serif;
+
+    --primary-color: var(--oc-orange-6);
+
+    --text-color: var(--oc-gray-8);
+    --text-color-gray: var(--oc-gray-6);
+
+    --bg-gray: var(--oc-gray-0);
+    --bg-gray-dark: var(--oc-gray-1);
+
+    --divider-color: var(--oc-gray-4);
+    --divider-color-dark: var(--oc-gray-8);
+
+    --content-max-width: 800px;
   }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    color: var(--text-color);
+
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  a,
+  div,
+  span,
+  small,
+  time,
+  p,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: inherit;
+  }
+
+  body,
+  p,
+  a,
+  div,
+  span,
+  small,
+  time,
+  li,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    cursor: pointer;
+    transition:
+      color 0.1s ease,
+      font-weight 0.1s ease;
+
+    color: var(--primary-color);
+    text-decoration-style: dotted;
+    text-underline-offset: 4px;
+  }
+
+  ol,
+  ul {
+    margin: 0;
+    padding: 0;
+
+    list-style-position: inside;
+  }
+
+  hr {
+    margin: 48px 0;
+    border: 0;
+    border-top: 1px solid var(--oc-gray-5);
+  }
+
+  html {
+    box-sizing: border-box;
+  }
+
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit;
+  }
+
+  body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   code {
-    font-family:
-      Menlo,
-      Monaco,
-      Lucida Console,
-      Liberation Mono,
-      DejaVu Sans Mono,
-      Bitstream Vera Sans Mono,
-      Courier New,
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
+  }
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  textarea,
+  input,
+  button {
+    font-size: 1rem;
+    font-family: inherit;
+    border: none;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    box-shadow:
+      0 0px 1px hsla(0, 0%, 0%, 0.2),
+      0 1px 2px hsla(0, 0%, 0%, 0.2);
+    background-color: white;
+    line-height: 1.5;
+    margin: 0;
+
+    &:hover {
+      box-shadow:
+        0 0px 1px hsla(0, 0%, 0%, 0.6),
+        0 1px 2px hsla(0, 0%, 0%, 0.2);
+    }
+  }
+
+  button {
+    color: #3992ff;
+    font-weight: 500;
+  }
+
+  button:active {
+    box-shadow: 0 0px 1px hsla(0, 0%, 0%, 0.4);
+    transform: translateY(1px);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  body {
+    display: flex;
+    height: 100%;
+    width: 100%;
+  }
+
+  #page-content {
+    height: 100%;
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  blockquote {
+    margin: 1rem;
+    padding: 0.5rem;
+    background: var(--oc-gray-1);
+    border: 1px dashed var(--divider-color);
+
+    @media (--mobile) {
+      & {
+        margin: 0.5rem;
+      }
+    }
+  }
+
+  @font-face {
+    font-family: "Eulyoo";
+    src: url("/fonts/Eulyoo1945-Regular.eot");
+    src: url("/fonts/Eulyoo1945-Regular.woff2") format("woff2");
+    src: url("/fonts/Eulyoo1945-Regular.woff") format("woff");
+    font-weight: 400;
+  }
+
+  @font-face {
+    font-family: "Eulyoo";
+    src: url("/fonts/Eulyoo1945-SemiBold.eot");
+    src: url("/fonts/Eulyoo1945-SemiBold.woff2") format("woff2");
+    src: url("/fonts/Eulyoo1945-SemiBold.woff") format("woff");
+    font-weight: 600;
+  }
+
+  @font-face {
+    font-family: "MaruBuri";
+    font-weight: 400;
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.eot);
+    src:
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.eot?#iefix)
+        format("embedded-opentype"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2)
+        format("woff2"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff)
+        format("woff"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.ttf)
+        format("truetype");
+  }
+
+  @font-face {
+    font-family: "MaruBuri";
+    font-weight: 600;
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.eot);
+    src:
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.eot?#iefix)
+        format("embedded-opentype"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff2)
+        format("woff2"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.woff)
+        format("woff"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-SemiBold.ttf)
+        format("truetype");
+  }
+
+  @font-face {
+    font-family: "MaruBuri";
+    font-weight: 700;
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.eot);
+    src:
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.eot?#iefix)
+        format("embedded-opentype"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff2)
+        format("woff2"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.woff)
+        format("woff"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Bold.ttf)
+        format("truetype");
+  }
+
+  @font-face {
+    font-family: "MaruBuri";
+    font-weight: 300;
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.eot);
+    src:
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.eot?#iefix)
+        format("embedded-opentype"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff2)
+        format("woff2"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.woff)
+        format("woff"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Light.ttf)
+        format("truetype");
+  }
+
+  @font-face {
+    font-family: "MaruBuri";
+    font-weight: 200;
+    src: url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.eot);
+    src:
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.eot?#iefix)
+        format("embedded-opentype"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff2)
+        format("woff2"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.woff)
+        format("woff"),
+      url(https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-ExtraLight.ttf)
+        format("truetype");
   }
 </style>

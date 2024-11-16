@@ -10,8 +10,13 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^4.16.13",
     "@astrojs/check": "^0.9.4",
+    "@csstools/postcss-global-data": "^3.0.0",
+    "astro": "^4.16.13",
+    "open-color": "^1.9.1",
+    "postcss-custom-media": "^11.0.5",
+    "postcss-nesting": "^13.0.1",
+    "prismjs": "^1.29.0",
     "typescript": "^5.6.3"
   }
 }
