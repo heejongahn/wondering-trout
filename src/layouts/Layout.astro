@@ -10,7 +10,6 @@ interface Props {
 const { protocol, host: hostWithoutProtocol } = Astro.url;
 const host = [protocol, "//", hostWithoutProtocol].join("");
 
-// FIXME
 const image = `${host}/images/logo/logo.png`;
 
 const {
