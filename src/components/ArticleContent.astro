@@ -1,0 +1,103 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  article: CollectionEntry<"article">;
+  class?: string;
+}
+
+const { article, class: className } = Astro.props;
+
+const { Content } = await article.render();
+---
+
+<article class:list={["content", className]}>
+  <Content />
+</article>
+
+<style>
+  .content {
+    max-width: 100%;
+
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    line-height: 1.6;
+
+    :global(h1),
+    :global(h2),
+    :global(h3) {
+      letter-spacing: -0.04rem;
+      margin: 2rem 0 0.5rem;
+    }
+
+    :global(h1) {
+      font-size: 1.5rem;
+    }
+
+    :global(h2) {
+      font-size: 1.2rem;
+    }
+
+    :global(h3) {
+      font-size: 1rem;
+    }
+
+    :global(h1:first-child),
+    :global(h2:first-child),
+    :global(h3:first-child) {
+      margin-top: 0;
+    }
+
+    :global(h1:last-child),
+    :global(h2:last-child),
+    :global(h3:last-child) {
+      margin-bottom: 0;
+    }
+
+    :global(p:not(:last-child)),
+    :global(blockquote:not(:last-child)),
+    :global(ul:not(:last-child)),
+    :global(ol:not(:last-child)),
+    :global(dl:not(:last-child)),
+    :global(pre:not(:last-child)) {
+      margin-bottom: 1rem;
+    }
+
+    :global(pre),
+    :global(code) {
+      font-size: 1rem;
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    :global(:not(pre) > code),
+    :global(pre) {
+      background-color: #fdf6e3;
+    }
+
+    :global(:not(pre) > code) {
+      padding: 2px;
+    }
+
+    :global(pre) {
+      padding: 4px;
+    }
+
+    :global(iframe:not(:first-child)) {
+      margin-top: 1rem;
+    }
+
+    :global(iframe:not(:last-child)) {
+      margin-bottom: 2rem;
+    }
+
+    :global(iframe),
+    :global(video) {
+      width: 100%;
+    }
+
+    :global(img) {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,127 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+import Layout from "../../layouts/Layout.astro";
+import { prettifyDate } from "../../utils/date";
+import ArticleContent from "../../components/ArticleContent.astro";
+
+export const getStaticPaths = (async () => {
+  const articles = await getCollection("article");
+
+  return articles.map((article) => ({
+    params: {
+      slug: article.slug,
+    },
+    props: {
+      article,
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  article: CollectionEntry<"article">;
+}
+
+const { article } = Astro.props;
+const { title, description, date, tags } = article.data;
+---
+
+<Layout title={title} description={description}>
+  <article id="article">
+    <div id="sentinel" aria-hidden></div>
+    <h1 class="article-title">
+      {title}
+    </h1>
+    <h2 class="article-subtitle">{description}</h2>
+    <div class="article-subinfo">
+      <time class="article-date">
+        {prettifyDate(date)}
+      </time>
+      <div class="article-tags">
+        {tags.map((tag) => `#${tag}`).join(", ")}
+      </div>
+    </div>
+
+    <main class="article-content">
+      <ArticleContent article={article} />
+    </main>
+  </article>
+</Layout>
+
+<style>
+  #article {
+    width: 100%;
+    padding: 2rem 2rem 2rem;
+  }
+
+  .article-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: sticky;
+    top: 0;
+    transition: all 0.1s ease-out;
+
+    font-size: 2rem;
+    letter-spacing: -0.04rem;
+
+    @media (--mobile) {
+      & {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .article-title-stuck {
+    padding: 1rem 0;
+    font-size: 1rem;
+    background-color: rgba(255, 255, 255, 0.87);
+  }
+
+  .article-subtitle {
+    font-size: 0.9rem;
+    color: gray;
+  }
+
+  .article-subinfo {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color-gray);
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .article-date {
+    font-family: monospace;
+    flex-shrink: 0;
+  }
+
+  .article-content {
+    margin: 4rem 0;
+  }
+</style>
+
+<script>
+  const sentinel = document.getElementById("sentinel") as HTMLDivElement;
+  const title = document.querySelector(".article-title") as HTMLHeadingElement;
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const entry = entries[0];
+      const isActive = entry.intersectionRatio > 0;
+
+      if (isActive) {
+        title.classList.remove("article-title-stuck");
+      } else {
+        title.classList.add("article-title-stuck");
+      }
+    },
+    { rootMargin: "-12px" }
+  );
+
+  observer.observe(sentinel);
+</script>
