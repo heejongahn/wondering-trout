@@ -24,7 +24,7 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
 );
 ---
 
-<Layout title="전체 글">
+<Layout title="전체 글" path="/articles">
   <ul class="articles">
     {
       byYearEntries.map(([year, articles]) => {

@@ -4,33 +4,40 @@ import Layout from "../layouts/Layout.astro";
 import ArticleItem from "../components/ArticleItem.astro";
 import { compareArticle } from "../utils/article";
 
-const PAGE_SIZE = 5;
-
 const articles = (await getCollection("article")).sort(compareArticle);
 
-const pageParam = Astro.url.searchParams.get("page");
+// FIXME:
+// SSG 환경에서 동작하지 않음. dynamic route 로 바꿔야 할 듯?
 
-const page = parseInt(pageParam ?? "0");
+const articlesForPage = articles.splice(0, 5);
 
-const totalPages = Math.ceil(articles.length / PAGE_SIZE);
-const articlesForPage = articles.splice(page * PAGE_SIZE, PAGE_SIZE);
+// const PAGE_SIZE = 5;
+// const pageParam = Astro.url.searchParams.get("page");
 
-const hasPrev = page > 0;
-const hasNext = page < totalPages - 1;
+// const page = parseInt(pageParam ?? "0");
+
+// const totalPages = Math.ceil(articles.length / PAGE_SIZE);
+// const articlesForPage = articles.splice(page * PAGE_SIZE, PAGE_SIZE);
+
+// const hasPrev = page > 0;
+// const hasNext = page < totalPages - 1;
 ---
 
-<Layout title="홈">
+<Layout title="홈" path="/">
   <ul class="home-inner">
     {articlesForPage.map((article) => <ArticleItem article={article} />)}
   </ul>
-  {
+  <div class="page-navigation">
+    <a href="/articles">전체 글 보기</a>
+  </div>
+  <!-- {
     hasNext || hasPrev ? (
       <div class="page-navigation">
         {hasPrev ? <a href={`/?page=${page - 1}`}>이전 페이지</a> : null}
         {hasNext ? <a href={`/?page=${page + 1}`}>다음 페이지</a> : null}
       </div>
     ) : null
-  }
+  } -->
 </Layout>
 
 <style>

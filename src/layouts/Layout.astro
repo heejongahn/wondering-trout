@@ -3,23 +3,25 @@ import Sidebar from "../components/Sidebar/index.astro";
 
 interface Props {
   title: string;
+  path: string;
   description?: string;
-  path?: string;
 }
 
-// FIXME: Move to env var
-const HOST = `https://wondering-trout.netlify.app`;
+const { protocol, host: hostWithoutProtocol } = Astro.url;
+const host = [protocol, "//", hostWithoutProtocol].join("");
 
 // FIXME
-const image = `${HOST}/images/logo/logo.png`;
+const image = `${host}/images/logo/logo.png`;
 
 const {
-  title,
+  title: rawTitle,
   description = "사색송어는 안희종의 개인 홈페이지입니다.",
   path,
 } = Astro.props;
 
-const pageUrl = `${HOST}${path}`;
+const title = [rawTitle, "사색송어"].join(" ⇠ ");
+
+const pageUrl = `${host}${path}`;
 ---
 
 <!doctype html>
@@ -233,18 +235,18 @@ const pageUrl = `${HOST}${path}`;
     &.prevent-scroll {
       overflow: hidden;
     }
-  }
-
-  .page-content {
-    height: 100%;
-    width: 100%;
-    flex: 1 1 auto;
 
     @media (--mobile) {
       & {
         padding-left: 0;
       }
     }
+  }
+
+  .page-content {
+    height: 100%;
+    width: 100%;
+    flex: 1 1 auto;
   }
 
   blockquote {

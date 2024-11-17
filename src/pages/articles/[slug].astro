@@ -25,10 +25,11 @@ interface Props {
 }
 
 const { article } = Astro.props;
-const { title, description, date, tags } = article.data;
+const { slug, data } = article;
+const { title, description, date, tags } = data;
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} path={`/articles/${slug}`}>
   <article id="article">
     <div id="sentinel" aria-hidden></div>
     <h1 class="article-title">
