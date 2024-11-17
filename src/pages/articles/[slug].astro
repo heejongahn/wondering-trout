@@ -1,11 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
 import { getCollection } from "astro:content";
-import type { CollectionEntry } from "astro:content";
 
 import Layout from "../../layouts/Layout.astro";
 import { prettifyDate } from "../../utils/date";
 import ArticleContent from "../../components/ArticleContent.astro";
+import type { Article } from "../../utils/article";
 
 export const getStaticPaths = (async () => {
   const articles = await getCollection("article");
@@ -21,7 +21,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 interface Props {
-  article: CollectionEntry<"article">;
+  article: Article;
 }
 
 const { article } = Astro.props;

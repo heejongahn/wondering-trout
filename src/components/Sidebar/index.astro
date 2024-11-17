@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import { isBefore } from "date-fns";
 import SidebarGroup from "./SidebarGroup.astro";
 import SidebarGroupItem from "./SidebarGroupItem.astro";
 import SidebarGroupItemList from "./SidebarGroupItemList.astro";
@@ -8,8 +7,7 @@ import SidebarGroupItemSubtext from "./SidebarGroupItemSubtext.astro";
 import SidebarGroupTitle from "./SidebarGroupTitle.astro";
 
 import { prettifyDate } from "../../utils/date";
-import { compareArticle } from "../../utils/article";
-import type { CollectionEntry } from "astro:content";
+import { compareArticle, type Article } from "../../utils/article";
 
 const favotieSlugs = [
   "bitter-day-sweet-home",
@@ -18,7 +16,7 @@ const favotieSlugs = [
   "on-climbing-sandhill",
 ];
 
-function isFavorite(article: CollectionEntry<"article">) {
+function isFavorite(article: Article) {
   return favotieSlugs.includes(article.slug);
 }
 
