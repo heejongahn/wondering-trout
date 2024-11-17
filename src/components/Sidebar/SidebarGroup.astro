@@ -1,0 +1,21 @@
+---
+
+---
+
+<div class="sidebar-group"><slot /></div>
+
+<style>
+  .sidebar-group {
+    padding: 2rem 0.5rem 1rem 1rem;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid var(--divider-color);
+    }
+  }
+
+  @media (--mobile) {
+    .sidebar-group {
+      padding-right: 1rem;
+    }
+  }
+</style>

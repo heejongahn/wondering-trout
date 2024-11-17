@@ -1,0 +1,253 @@
+---
+import { getCollection } from "astro:content";
+import { isBefore } from "date-fns";
+import SidebarGroup from "./SidebarGroup.astro";
+import SidebarGroupItem from "./SidebarGroupItem.astro";
+import SidebarGroupItemList from "./SidebarGroupItemList.astro";
+import SidebarGroupItemSubtext from "./SidebarGroupItemSubtext.astro";
+import SidebarGroupTitle from "./SidebarGroupTitle.astro";
+
+import { prettifyDate } from "../../utils/date";
+import { compareArticle } from "../../utils/article";
+import type { CollectionEntry } from "astro:content";
+
+const favotieSlugs = [
+  "bitter-day-sweet-home",
+  "stairway-and-field",
+  "30days-run",
+  "on-climbing-sandhill",
+];
+
+function isFavorite(article: CollectionEntry<"article">) {
+  return favotieSlugs.includes(article.slug);
+}
+
+const articles = (await getCollection("article")).sort(compareArticle);
+
+const favorites = articles.filter(isFavorite);
+const recentNonFavorites = articles
+  .filter((article) => !isFavorite(article))
+  .slice(0, 5);
+---
+
+<nav id="sidebar">
+  <SidebarGroup class="sidebar-group-home">
+    <h1 class="sidebar-title">
+      <a href="/" class="sidebar-title-link"> 사색송어 </a>
+      <span class="sidebar-title-subtext">Wondering Trout</span>
+    </h1>
+    <a href="/about" class="sidebar-about-link"> 누구세요? </a>
+  </SidebarGroup>
+  <SidebarGroup>
+    <SidebarGroupTitle>아카이브</SidebarGroupTitle>
+    <SidebarGroupItemList isMobileRow={true}>
+      <SidebarGroupItem href="/articles">전체</SidebarGroupItem>
+    </SidebarGroupItemList>
+  </SidebarGroup>
+  <SidebarGroup>
+    <SidebarGroupTitle>최근 글</SidebarGroupTitle>
+    <SidebarGroupItemList>
+      {
+        recentNonFavorites.map((article) => (
+          <SidebarGroupItem href={`/articles/${article.slug}`}>
+            {article.data.title}
+            <SidebarGroupItemSubtext>
+              {prettifyDate(article.data.date)}
+            </SidebarGroupItemSubtext>
+          </SidebarGroupItem>
+        ))
+      }
+    </SidebarGroupItemList>
+  </SidebarGroup>
+  <SidebarGroup>
+    <SidebarGroupTitle>좋아하는 글</SidebarGroupTitle>
+    <SidebarGroupItemList>
+      {
+        favorites.map((article) => (
+          <SidebarGroupItem href={`/articles/${article.slug}`}>
+            {article.data.title}
+            <SidebarGroupItemSubtext>
+              {prettifyDate(article.data.date)}
+            </SidebarGroupItemSubtext>
+          </SidebarGroupItem>
+        ))
+      }
+    </SidebarGroupItemList>
+  </SidebarGroup>
+  <SidebarGroup>
+    <SidebarGroupTitle>링크</SidebarGroupTitle>
+    <SidebarGroupItemList>
+      <SidebarGroupItem href="mailto:heejongahn@gmail.com" target="_blank">
+        Mail
+      </SidebarGroupItem>
+      <SidebarGroupItem href="https://twitter.com/heejongahn" target="_blank">
+        Twitter
+      </SidebarGroupItem>
+      <SidebarGroupItem href="https://instagram.com/heejongahn" target="_blank">
+        Instagram
+      </SidebarGroupItem>
+      <SidebarGroupItem href="https://github.com/heejongahn" target="_blank">
+        GitHub
+      </SidebarGroupItem>
+      <SidebarGroupItem
+        href="https://www.linkedin.com/in/heejongahn/"
+        target="_blank"
+      >
+        LinkedIn
+      </SidebarGroupItem>
+    </SidebarGroupItemList>
+  </SidebarGroup>
+</nav>
+<button id="sidebar-toggle-button" class="sidebar-logo-wrapper">
+  <img
+    alt="로고"
+    class="sidebar-logo"
+    srcset="/images/logo/logo.png 1x, /images/logo/logo@2x.png 2x, /images/logo/logo@3x.png 3x"
+    src="/images/logo/logo.png"
+  />
+</button>
+
+<script>
+  function toggleExpandedState(el: HTMLElement) {
+    if (el.classList.contains("is-expanded")) {
+      el.classList.remove("is-expanded");
+      document.body.classList.remove("prevent-scroll");
+    } else {
+      el.classList.add("is-expanded");
+      document.body.classList.add("prevent-scroll");
+    }
+  }
+
+  const toggleButton = document.querySelector("#sidebar-toggle-button");
+  const sidebar = document.querySelector("#sidebar") as HTMLElement;
+
+  toggleButton?.addEventListener("click", () => {
+    toggleExpandedState(sidebar);
+  });
+</script>
+
+<style>
+  #sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: var(--sidebar-width);
+    height: 100%;
+    overflow-y: auto;
+
+    background-color: var(--oc-orange-0);
+    border-right: solid 1px var(--divider-color);
+    display: flex;
+    flex-direction: column;
+
+    --item-padding: 0.5rem;
+
+    .sidebar-group-home {
+      position: sticky;
+      top: 0;
+
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background-color: var(--oc-orange-0);
+    }
+
+    .sidebar-about-link {
+      color: var(--text-color-gray);
+    }
+
+    .sidebar-title {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      letter-spacing: -0.02rem;
+      font-weight: 900;
+    }
+
+    .sidebar-title-subtext {
+      font-weight: 700;
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--primary-color);
+    }
+
+    .sidebar-about {
+      cursor: help;
+    }
+
+    .sidebar-content {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+  }
+
+  .sidebar-logo-wrapper {
+    display: none;
+
+    appearance: none;
+    padding: 4px;
+  }
+
+  .sidebar-logo {
+    width: 32px;
+    height: 32px;
+    transform: scaleX(-1);
+    transition: transform 0.15s ease-in-out;
+  }
+
+  @media (--mobile) {
+    .sidebar-logo-wrapper {
+      z-index: 1;
+
+      display: flex;
+
+      position: fixed;
+      top: 8px;
+      right: 8px;
+    }
+
+    #sidebar {
+      display: none;
+
+      &.is-expanded {
+        z-index: 1;
+
+        display: flex;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+
+        & ~ .sidebar-logo-wrapper {
+          background: transparent;
+
+          .sidebar-logo {
+            transform: rotate(-180deg);
+          }
+        }
+      }
+
+      .sidebar-title {
+        font-size: 1rem;
+
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+
+        gap: 4px;
+      }
+
+      .sidebar-title-subtext {
+        display: inline-block;
+      }
+
+      .sidebar-group-home {
+        gap: 4px;
+      }
+    }
+  }
+</style>

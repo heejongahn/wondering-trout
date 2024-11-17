@@ -1,4 +1,6 @@
 ---
+import Sidebar from "../components/Sidebar/index.astro";
+
 interface Props {
   title: string;
   description?: string;
@@ -49,7 +51,10 @@ const pageUrl = `${HOST}${path}`;
     <meta name="twitter:image" content={image} />
   </head>
   <body>
-    <slot />
+    <Sidebar />
+    <div class="page-content">
+      <slot />
+    </div>
   </body>
 </html>
 <style is:global>
@@ -73,6 +78,7 @@ const pageUrl = `${HOST}${path}`;
     --divider-color-dark: var(--oc-gray-8);
 
     --content-max-width: 800px;
+    --sidebar-width: 320px;
   }
 
   * {
@@ -222,12 +228,23 @@ const pageUrl = `${HOST}${path}`;
     display: flex;
     height: 100%;
     width: 100%;
+    padding-left: var(--sidebar-width);
+
+    &.prevent-scroll {
+      overflow: hidden;
+    }
   }
 
-  #page-content {
+  .page-content {
     height: 100%;
     width: 100%;
     flex: 1 1 auto;
+
+    @media (--mobile) {
+      & {
+        padding-left: 0;
+      }
+    }
   }
 
   blockquote {
@@ -241,6 +258,12 @@ const pageUrl = `${HOST}${path}`;
         margin: 0.5rem;
       }
     }
+  }
+
+  .page-content {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
+    width: 100%;
   }
 
   @font-face {

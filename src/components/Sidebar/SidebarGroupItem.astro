@@ -1,0 +1,54 @@
+---
+interface Props {
+  href: string;
+  target?: string;
+}
+
+const { href, target = "_self" } = Astro.props;
+
+const isActiveUrl = Astro.url.pathname === href;
+---
+
+<li class="sidebar-group-item">
+  <a
+    class:list={{
+      "sidebar-group-item-link": true,
+      "sidebar-group-item-link-active": isActiveUrl,
+    }}
+    href={href}
+    target={target}
+    rel="noreferrer"
+  >
+    <slot />
+  </a>
+</li>
+
+<style>
+  .sidebar-group-item {
+    width: 100%;
+
+    padding: 4px;
+    margin: 0 -4px;
+    list-style: none;
+  }
+
+  .sidebar-group-item-link {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    column-gap: 8px;
+
+    width: 100%;
+    word-break: keep-all;
+
+    color: var(--text-color);
+    text-decoration: none;
+    letter-spacing: -0.02rem;
+  }
+
+  .sidebar-group-item-link-active {
+    font-weight: 700;
+    color: var(--primary-color);
+  }
+</style>

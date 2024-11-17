@@ -1,0 +1,21 @@
+---
+interface Props {
+  class?: string;
+  isMobileRow?: boolean;
+}
+
+const { isMobileRow = false } = Astro.props;
+---
+
+<ul class="sidebar-group-item-list">
+  <slot />
+</ul>
+
+<style>
+  .sidebar-group-item-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+</style>
