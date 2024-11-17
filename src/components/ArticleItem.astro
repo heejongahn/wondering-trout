@@ -1,0 +1,76 @@
+---
+import type { Article } from "../utils/article";
+import { prettifyDate } from "../utils/date";
+import ArticleContent from "./ArticleContent.astro";
+
+interface Props {
+  article: Article;
+  class?: string;
+}
+
+const { article, class: className } = Astro.props;
+const { slug, data } = article;
+const { title, description, date, tags } = data;
+---
+
+<li class:list={["article", className]}>
+  <a href={`/articles/${slug}`}>
+    <h1 class="article-title">{title}</h1>
+  </a>
+  <h2 class="article-subtitle">{description}</h2>
+  <div class="article-subinfo">
+    <time class="article-date">{prettifyDate(date)}</time>
+    <div class="article-tags">
+      {tags.map((tag) => `#${tag}`).join(", ")}
+    </div>
+  </div>
+
+  <div class="article-content">
+    <ArticleContent article={article} />
+  </div>
+</li>
+
+<style>
+  .article {
+    &:not(:last-child) {
+      margin-bottom: 8rem;
+    }
+  }
+
+  .article-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    font-size: 1.5rem;
+    color: var(--text-color);
+    letter-spacing: -0.04rem;
+  }
+
+  .article-subtitle {
+    font-size: 1rem;
+    color: gray;
+  }
+
+  .article-subinfo {
+    margin-top: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--text-color-gray);
+    font-size: 0.8rem;
+    gap: 8px;
+  }
+
+  .article-date {
+    font-family: monospace;
+    flex-shrink: 0;
+  }
+
+  .article-content {
+    margin: 4rem 0;
+    :global(h1, h2, h3) {
+      font-size: 1rem;
+    }
+  }
+</style>
