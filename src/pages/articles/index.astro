@@ -1,7 +1,7 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import { prettifyDate } from "../../utils/date";
-import type { Article } from "../../utils/article";
+import { compareArticle, type Article } from "../../utils/article";
 
 import { getCollection } from "astro:content";
 
@@ -17,7 +17,7 @@ function groupArticlesByYear(articles: Article[]) {
   return byYear;
 }
 
-const articles = await getCollection("article");
+const articles = (await getCollection("article")).sort(compareArticle);
 
 const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
   (a, b) => (a[0] > b[0] ? -1 : 1)
