@@ -99,5 +99,24 @@ const { Content } = await article.render();
     :global(img) {
       width: 100%;
     }
+
+    :global(.footnotes) {
+      font-size: 0.8rem;
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px dashed var(--divider-color);
+    }
+
+    :global(.footnotes > ol > li:not(:first-child)) {
+      margin-top: 0.5rem;
+    }
+
+    :global(.footnotes > ol > li > p) {
+      display: inline;
+    }
+
+    :global([data-footnote-ref]) {
+      scroll-margin-top: 100px;
+    }
   }
 </style>
