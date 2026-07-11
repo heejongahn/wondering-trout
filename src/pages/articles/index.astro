@@ -20,7 +20,7 @@ function groupArticlesByYear(articles: Article[]) {
 const articles = (await getCollection("article")).sort(compareArticle);
 
 const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
-  (a, b) => (a[0] > b[0] ? -1 : 1)
+  (a, b) => (a[0] > b[0] ? -1 : 1),
 );
 ---
 
@@ -30,7 +30,7 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
       byYearEntries.map(([year, articles]) => {
         return (
           <li class="articles-group">
-            <h2 class="articles-group-header">{year}</h2>
+            <h2 class="articles-group-header">{year}년</h2>
             <ul class="articles-group-list">
               {articles.map((article) => {
                 const { data, slug } = article;
@@ -38,7 +38,7 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
                 return (
                   <li class="articles-group-list-item">
                     <time class="articles-group-list-item-date">
-                      {prettifyDate(date, "MM. dd")}
+                      {prettifyDate(date, "MMM do")}
                     </time>
                     <a
                       href={`/articles/${slug}`}
@@ -69,6 +69,12 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
     padding: 2rem;
     display: flex;
     flex-direction: column;
+
+    @media (--mobile) {
+      & {
+        padding: 2rem 1.5rem;
+      }
+    }
   }
 
   .articles-group {
@@ -76,14 +82,13 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
     color: var(--text-color-gray);
 
     &:not(:last-child) {
-      margin-bottom: 2rem;
+      margin-bottom: 4rem;
     }
   }
 
   .articles-group-header {
-    font-size: 1rem;
+    font-size: 1.5rem;
     font-weight: 700;
-    font-family: monospace;
 
     margin-bottom: 1rem;
   }
@@ -108,14 +113,13 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
   }
 
   .articles-group-list-item-date {
-    flex: 0 0 44px;
-    width: 44px;
+    flex: 0 0 80px;
+    width: 80px;
     margin-top: 4px;
 
     color: var(--text-color-gray);
     font-weight: 500;
-    font-size: 0.8em;
-    font-family: monospace;
+    font-size: 1rem;
     text-decoration: none;
   }
 
@@ -126,6 +130,7 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
   }
 
   .articles-group-list-item-title {
+    font-size: 1.2rem;
     font-weight: 700;
 
     display: flex;
@@ -135,6 +140,6 @@ const byYearEntries = Object.entries(groupArticlesByYear(articles)).sort(
   }
 
   .articles-group-list-item-description {
-    font-size: 0.8rem;
+    font-size: 1rem;
   }
 </style>

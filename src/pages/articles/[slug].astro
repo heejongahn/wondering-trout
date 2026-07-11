@@ -70,7 +70,7 @@ const { title, description, date, tags } = data;
 
     @media (--mobile) {
       & {
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
     }
   }
@@ -82,27 +82,47 @@ const { title, description, date, tags } = data;
   }
 
   .article-subtitle {
-    font-size: 0.9rem;
-    color: gray;
+    margin-top: 0.5rem;
+    font-size: 1.2rem;
+    color: var(--text-color-gray);
+
+    @media (--mobile) {
+      & {
+        font-size: 1rem;
+      }
+    }
   }
 
   .article-subinfo {
-    margin-top: 0.5rem;
+    margin-top: 1rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     color: var(--text-color-gray);
-    font-size: 0.8rem;
+    font-size: 1rem;
     gap: 8px;
+
+    @media (--mobile) {
+      & {
+        font-size: 0.8rem;
+      }
+    }
   }
 
   .article-date {
-    font-family: monospace;
     flex-shrink: 0;
   }
 
   .article-content {
     margin: 4rem 0;
+    font-size: 1.2rem;
+    font-weight: 500;
+
+    @media (--mobile) {
+      & {
+        font-size: 1rem;
+      }
+    }
   }
 </style>
 
@@ -121,7 +141,7 @@ const { title, description, date, tags } = data;
         title.classList.add("article-title-stuck");
       }
     },
-    { rootMargin: "-12px" }
+    { rootMargin: "-12px" },
   );
 
   observer.observe(sentinel);
